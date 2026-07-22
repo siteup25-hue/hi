@@ -360,8 +360,10 @@ footer img{height:52px;width:auto}
   padding-block:18px;padding-inline:var(--gutter);background:rgba(6,23,38,.72);backdrop-filter:blur(12px);border-bottom:1px solid rgba(224,188,106,.18)}
 .go__title{font-family:var(--serif);font-size:clamp(21px,3vw,32px);color:#fff}
 .go__title b{color:var(--gold-2);font-weight:400}
-.go__close{width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.25);color:#fff;display:grid;place-items:center;transition:background .3s,transform .4s var(--ease-out)}
-.go__close:hover{background:rgba(255,255,255,.12);transform:rotate(90deg)}
+.go__close{display:inline-flex;align-items:center;gap:9px;height:46px;border-radius:999px;border:1px solid rgba(255,255,255,.5);color:#fff;font-family:inherit;font-weight:600;font-size:15px;background:rgba(255,255,255,.08);transition:background .3s,transform .25s var(--ease-out)}
+.go__close:hover{background:rgba(255,255,255,.2);transform:translateY(-1px)}
+.go__close:active{transform:scale(.97)}
+#rodon .go__close{padding-inline:20px}
 .go__intro{padding-block:24px 0;padding-inline:var(--gutter);color:#a9c6da;font-size:15px;max-width:62ch;line-height:1.7}
 .go__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 @media(max-width:900px){.go__grid{grid-template-columns:repeat(3,1fr)}}
@@ -378,6 +380,8 @@ html.go-lock,body.go-lock{overflow:hidden}
 .stagger-item{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
 .stagger-item.in{opacity:1;transform:none}
 
+/* keep the top menu sticky across the whole site (beats #rodon header{position:relative}) */
+#rodon .nav{position:fixed;top:0;inset-inline:0;z-index:40}
 /* ID-scoped padding/margin for gallery + dropdown (the #rodon * reset zeroes class-only padding) */
 #rodon .go__bar{padding-inline:var(--gutter);padding-block:18px}
 #rodon .go__intro{padding-inline:var(--gutter)}
@@ -627,8 +631,9 @@ html.go-lock,body.go-lock{overflow:hidden}
     <div class="gallery-overlay" id="galleryOverlay" role="dialog" aria-modal="true" aria-label="גלריית תמונות" aria-hidden="true">
       <div class="go__bar">
         <span class="go__title">הגלריה של <b>רודון קלאב</b></span>
-        <button class="go__close" id="goClose" aria-label="סגירה">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 2l14 14M16 2L2 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <button class="go__close" id="goClose" aria-label="חזרה לאתר">
+          <svg width="15" height="15" viewBox="0 0 18 18" fill="none"><path d="M2 2l14 14M16 2L2 16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+          <span>חזרה לאתר</span>
         </button>
       </div>
       <p class="go__intro">רגעים מהטברנה, מהאוכל ומהאירועים שלנו. עוד המון תמונות מחכות לכם <a href="https://www.facebook.com/share/1Gfai2KYKb/" target="_blank" rel="noopener" style="color:var(--gold-2);text-decoration:underline">בעמוד הפייסבוק</a>.</p>
