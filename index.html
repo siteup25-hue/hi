@@ -56,7 +56,7 @@ html,body{margin:0;padding:0;background:var(--white)}
   direction:rtl;
   font-family:"Heebo",system-ui,"Segoe UI","Arial Hebrew",sans-serif;
   color:var(--blue-ink);
-  background:var(--white);
+  background:transparent;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
   line-height:1.6;
@@ -67,6 +67,11 @@ html,body{margin:0;padding:0;background:var(--white)}
 #rodon a{color:inherit;text-decoration:none}
 #rodon button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
 #rodon ::selection{background:var(--blue);color:#fff}
+/* ---- site-wide scroll color-shift: fixed background recolors as you scroll ---- */
+.bgshift{position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,#FBF7EE,#F3ECDD);transition:background .18s linear}
+#rodon .story,#rodon .events,#rodon .atmo,#rodon .gallery{background:rgba(251,247,238,.72);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+#rodon .info{background:rgba(233,242,250,.78)}
+#rodon footer{background:rgba(243,236,221,.82)}
 #rodon .ico{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
 #rodon .ico svg{width:100%;height:100%;display:block}
 /* ID-scoped so button colors beat the #rodon a{color:inherit} reset */
@@ -179,6 +184,13 @@ html,body{margin:0;padding:0;background:var(--white)}
 .menu .sec-title{color:#fff}
 .menu .lede{color:#bcd6e8}
 .menu__grid{margin-top:54px;display:grid;grid-template-columns:1fr 1fr;gap:14px 60px}
+.menu__group{margin-top:50px}
+.menu__group-t{font-family:var(--serif);font-size:14px;letter-spacing:.26em;color:#9ec2dd;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:14px}
+.menu__group-t::before,.menu__group-t::after{content:"";height:1px;flex:1;background:rgba(224,188,106,.3)}
+.menu__cols{columns:3;column-gap:52px}
+.menu__cols .menu__cat{break-inside:avoid;-webkit-column-break-inside:avoid;margin-bottom:28px}
+@media (max-width:900px){.menu__cols{columns:2;column-gap:38px}}
+@media (max-width:600px){.menu__cols{columns:1}}
 .menu__cat h3{font-family:var(--serif);font-weight:500;font-size:25px;color:var(--gold-2);margin-bottom:8px;display:flex;align-items:center;gap:14px}
 .menu__cat h3 .m{flex:1;height:1px;background:rgba(224,188,106,.35)}
 .mi{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.08)}
@@ -342,6 +354,7 @@ footer img{height:52px;width:auto}
 </style>
 
 <div id="rodon" dir="rtl" lang="he">
+  <div class="bgshift" aria-hidden="true"></div>
   <div class="cursor" aria-hidden="true"></div>
   <div class="cursor-dot" aria-hidden="true"></div>
 
@@ -419,35 +432,107 @@ footer img{height:52px;width:auto}
         <span class="eyebrow on-blue reveal">בתיאבון</span>
         <h2 class="sec-title reveal">התפריט: מטבח יווני, כמו שצריך</h2>
         <p class="lede reveal">מנות שיתופיות, חומרי גלם טריים והרבה שמן זית טוב. הכול נעשה במקום, כל יום מחדש.</p>
-        <div class="menu__grid reveal">
-          <div class="menu__cat">
-            <h3>מזטים <span class="m"></span></h3>
-            <div class="mi"><div class="mi__l"><h4>צזיקי</h4><p>יוגורט סמיך, מלפפון, שום ושמן זית</p></div><span class="mi__p">32</span></div>
-            <div class="mi"><div class="mi__l"><h4>ספנקופיטה</h4><p>בורקס תרד ופטה במאפה פילו פריך</p></div><span class="mi__p">38</span></div>
-            <div class="mi"><div class="mi__l"><h4>דולמדס</h4><p>עלי גפן ממולאים באורז ועשבי תיבול</p></div><span class="mi__p">36</span></div>
-            <div class="mi"><div class="mi__l"><h4>סגנקי</h4><p>גבינה צהובה צרובה עם דבש ולימון</p></div><span class="mi__p">44</span></div>
-          </div>
-          <div class="menu__cat">
-            <h3>על האש <span class="m"></span></h3>
-            <div class="mi"><div class="mi__l"><h4>סובלקי</h4><p>שיפודי בשר במרינדה, פיתה וצזיקי</p></div><span class="mi__p">62</span></div>
-            <div class="mi"><div class="mi__l"><h4>גירוס</h4><p>נתחי בשר עסיסיים, בצל אדום וצ׳יפס</p></div><span class="mi__p">58</span></div>
-            <div class="mi"><div class="mi__l"><h4>מוסקה</h4><p>שכבות חציל, בשר ובשמל אפוי בתנור</p></div><span class="mi__p">64</span></div>
-            <div class="mi"><div class="mi__l"><h4>קבב יווני</h4><p>בשר טחון בעשבי תיבול על הפלנצ׳ה</p></div><span class="mi__p">56</span></div>
-          </div>
-          <div class="menu__cat">
-            <h3>מן הים <span class="m"></span></h3>
-            <div class="mi"><div class="mi__l"><h4>כלמארי</h4><p>טבעות קלמרי פריכות ואיולי לימון</p></div><span class="mi__p">58</span></div>
-            <div class="mi"><div class="mi__l"><h4>אוקטפוד</h4><p>זרוע תמנון על הגריל, שמן זית ואורגנו</p></div><span class="mi__p">78</span></div>
-            <div class="mi"><div class="mi__l"><h4>ברבוניה</h4><p>דגי ברבוניה מטוגנים, לימון וים</p></div><span class="mi__p">72</span></div>
-          </div>
-          <div class="menu__cat">
-            <h3>קינוחים ומשקאות <span class="m"></span></h3>
-            <div class="mi"><div class="mi__l"><h4>גלקטובורקו</h4><p>מאפה סולת וסירופ, קלאסיקה יוונית</p></div><span class="mi__p">36</span></div>
-            <div class="mi"><div class="mi__l"><h4>יוגורט ודבש</h4><p>יוגורט כבשים, דבש תימין ואגוזים</p></div><span class="mi__p">32</span></div>
-            <div class="mi"><div class="mi__l"><h4>קפה יווני</h4><p>קפה חזק ומסורתי לסיום הארוחה</p></div><span class="mi__p">18</span></div>
+        <div class="menu__group reveal">
+          <div class="menu__group-t">המטבח</div>
+          <div class="menu__cols">
+            <div class="menu__cat">
+              <h3>מנות פתיחה <span class="m"></span></h3>
+              <div class="mi"><div class="mi__l"><h4>עלי גפן</h4><p>במילוי אורז</p></div><span class="mi__p">38</span></div>
+              <div class="mi"><div class="mi__l"><h4>צ׳יפס בטטה</h4><p>צ׳יפס וצ׳יפס בטטה, גרידת לימון ובולגרית</p></div><span class="mi__p">55</span></div>
+              <div class="mi"><div class="mi__l"><h4>צ׳יפס</h4></div><span class="mi__p">38</span></div>
+              <div class="mi"><div class="mi__l"><h4>מאזת זיתים</h4></div><span class="mi__p">26</span></div>
+              <div class="mi"><div class="mi__l"><h4>מאזת בולגרית</h4><p>זעתר, שמן זית ומלפפון</p></div><span class="mi__p">42</span></div>
+              <div class="mi"><div class="mi__l"><h4>מאזת ירקות צבעונית</h4></div><span class="mi__p">38</span></div>
+              <div class="mi"><div class="mi__l"><h4>מאזת לבבות דקל</h4><p>בשילוב ארטישוק</p></div><span class="mi__p">42</span></div>
+              <div class="mi"><div class="mi__l"><h4>איקרה</h4><p>בצל סגול ופלפל חריף</p></div><span class="mi__p">38</span></div>
+              <div class="mi"><div class="mi__l"><h4>מאזת דגית מטיאס</h4></div><span class="mi__p">42</span></div>
+              <div class="mi"><div class="mi__l"><h4>מאזת אנשובי</h4><p>עם עגבניות</p></div><span class="mi__p">38</span></div>
+              <div class="mi"><div class="mi__l"><h4>מאזת גבינות</h4></div><span class="mi__p">42</span></div>
+              <div class="mi"><div class="mi__l"><h4>צזיקי</h4><p>יוגורט, מלפפונים ושמיר</p></div><span class="mi__p">38</span></div>
+              <div class="mi"><div class="mi__l"><h4>אדממה</h4></div><span class="mi__p">35</span></div>
+              <div class="mi"><div class="mi__l"><h4>לחם, שמן זית ובלסמי</h4><p>תוספת</p></div><span class="mi__p">25</span></div>
+            </div>
+            <div class="menu__cat">
+              <h3>סלטים <span class="m"></span></h3>
+              <div class="mi"><div class="mi__l"><h4>סלט חלומי</h4><p>קוביות חלומי מטוגן, ירקות טריים ולחם בצד</p></div><span class="mi__p">74</span></div>
+              <div class="mi"><div class="mi__l"><h4>סלט יווני</h4><p>ירקות טריים, זיתי קלמטה ולחם בצד</p></div><span class="mi__p">68</span></div>
+            </div>
+            <div class="menu__cat">
+              <h3>מנות עיקריות <span class="m"></span></h3>
+              <div class="mi"><div class="mi__l"><h4>פיש אנד צ׳יפס</h4></div><span class="mi__p">89</span></div>
+              <div class="mi"><div class="mi__l"><h4>פלטת דגים עשירה</h4><p>פילטים טריים ואיכותיים</p></div><span class="mi__p">199</span></div>
+              <div class="mi"><div class="mi__l"><h4>פלטת מטוגנים</h4></div><span class="mi__p">140</span></div>
+            </div>
+            <div class="menu__cat">
+              <h3>קינוחים <span class="m"></span></h3>
+              <div class="mi"><div class="mi__l"><h4>עוגות אישיות</h4><p>מבחר לבחירה</p></div><span class="mi__p">48</span></div>
+              <div class="mi"><div class="mi__l"><h4>שאל את המלצר</h4><p>מתחלף מדי יום</p></div></div>
+            </div>
+            <div class="menu__cat">
+              <h3>שתייה קלה <span class="m"></span></h3>
+              <div class="mi"><div class="mi__l"><h4>סודה</h4></div><span class="mi__p">15</span></div>
+              <div class="mi"><div class="mi__l"><h4>מים</h4></div><span class="mi__p">10</span></div>
+              <div class="mi"><div class="mi__l"><h4>לימונענע</h4></div><span class="mi__p">15</span></div>
+              <div class="mi"><div class="mi__l"><h4>קולה / זירו</h4></div><span class="mi__p">15</span></div>
+              <div class="mi"><div class="mi__l"><h4>ספרייט</h4></div><span class="mi__p">15</span></div>
+              <div class="mi"><div class="mi__l"><h4>בלו</h4></div><span class="mi__p">18</span></div>
+            </div>
           </div>
         </div>
-        <div class="menu__note reveal"><span class="d"></span>תפריט לדוגמה. התפריט המלא והמעודכן יוצג כאן, וגם תפריטי אירועים בהתאמה אישית.</div>
+
+        <div class="menu__group reveal">
+          <div class="menu__group-t">הבר</div>
+          <div class="menu__cols">
+            <div class="menu__cat">
+              <h3>שתייה חריפה <span class="m"></span></h3>
+              <div class="mi"><div class="mi__l"><h4>וודקה פינלנדיה</h4></div><span class="mi__p">46</span></div>
+              <div class="mi"><div class="mi__l"><h4>גרייגוס</h4></div><span class="mi__p">55</span></div>
+              <div class="mi"><div class="mi__l"><h4>גלנפידיך 14</h4></div><span class="mi__p">65</span></div>
+              <div class="mi"><div class="mi__l"><h4>בלייק</h4></div><span class="mi__p">56</span></div>
+              <div class="mi"><div class="mi__l"><h4>שיבס</h4></div><span class="mi__p">65</span></div>
+              <div class="mi"><div class="mi__l"><h4>ג׳ק דניאל דבש</h4></div><span class="mi__p">56</span></div>
+              <div class="mi"><div class="mi__l"><h4>מקאלן 12</h4></div><span class="mi__p">110</span></div>
+              <div class="mi"><div class="mi__l"><h4>גלאן פידיך</h4></div><span class="mi__p">75</span></div>
+              <div class="mi"><div class="mi__l"><h4>ואן גוך</h4><p>בטעמים</p></div><span class="mi__p">59</span></div>
+            </div>
+            <div class="menu__cat">
+              <h3>אניס <span class="m"></span></h3>
+              <div class="mi"><div class="mi__l"><h4>ערק עלית</h4></div><span class="mi__p">48</span></div>
+              <div class="mi"><div class="mi__l"><h4>פלומירי</h4></div><span class="mi__p">52</span></div>
+              <div class="mi"><div class="mi__l"><h4>פלומירי אישי</h4><p>200 מ״ל</p></div><span class="mi__p">120</span></div>
+              <div class="mi"><div class="mi__l"><h4>אוזו 7</h4></div><span class="mi__p">49</span></div>
+              <div class="mi"><div class="mi__l"><h4>אוזו 12</h4></div><span class="mi__p">52</span></div>
+              <div class="mi"><div class="mi__l"><h4>תוספת לכוסית</h4><p>בצד</p></div><span class="mi__p">10</span></div>
+            </div>
+            <div class="menu__cat">
+              <h3>יינות <span class="m"></span></h3>
+              <div class="mi"><div class="mi__l"><h4>יין לבן / בלו נאן / אדום</h4></div><span class="mi__p">48</span></div>
+              <div class="mi"><div class="mi__l"><h4>קמפרי</h4></div><span class="mi__p">47</span></div>
+              <div class="mi"><div class="mi__l"><h4>ייגר מייסטר</h4></div><span class="mi__p">48</span></div>
+              <div class="mi"><div class="mi__l"><h4>בייליס</h4></div><span class="mi__p">45</span></div>
+            </div>
+            <div class="menu__cat">
+              <h3>צ׳ייסרים <span class="m"></span></h3>
+              <div class="mi"><div class="mi__l"><h4>ערק / אוזו / וודקה / ייגר</h4></div><span class="mi__p">25</span></div>
+            </div>
+            <div class="menu__cat">
+              <h3>בירות <span class="m"></span></h3>
+              <div class="mi"><div class="mi__l"><h4>קורונה</h4></div><span class="mi__p">32/38</span></div>
+              <div class="mi"><div class="mi__l"><h4>בירה שחורה</h4></div><span class="mi__p">22</span></div>
+              <div class="mi"><div class="mi__l"><h4>חבית היינקן</h4></div><span class="mi__p">32/42</span></div>
+              <div class="mi"><div class="mi__l"><h4>קרלסברג</h4><p>בקבוק</p></div><span class="mi__p">32</span></div>
+              <div class="mi"><div class="mi__l"><h4>ויין שטיפן</h4><p>בקבוק</p></div><span class="mi__p">42</span></div>
+            </div>
+            <div class="menu__cat">
+              <h3>בקבוקים <span class="m"></span></h3>
+              <div class="mi"><div class="mi__l"><h4>בלייק ליטר</h4><p>כולל בקבוק קולה בצד</p></div><span class="mi__p">700</span></div>
+              <div class="mi"><div class="mi__l"><h4>גרייגוס ליטר</h4><p>עם 4 תוספות לבחירה</p></div><span class="mi__p">800</span></div>
+              <div class="mi"><div class="mi__l"><h4>ערק עלית</h4></div><span class="mi__p">450</span></div>
+              <div class="mi"><div class="mi__l"><h4>פלומירי</h4></div><span class="mi__p">500</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="menu__note reveal"><span class="d"></span>המחירים בשקלים וייתכנו שינויים. מזמינים תפריטי אירועים בהתאמה אישית.</div>
       </div>
     </section>
 
@@ -749,6 +834,23 @@ footer img{height:52px;width:auto}
       frame();
     }catch(e){ if(fb)fb.style.display="block"; if(canvas)canvas.style.display="none"; }
   }
+  /* site-wide scroll color-shift (background recolors as you scroll) */
+  (function(){
+    var bg=document.querySelector(".bgshift"); if(!bg)return;
+    var pal=[[251,247,238],[247,225,201],[212,230,245],[158,201,228],[120,168,208]];
+    function lerp(a,b,t){return Math.round(a+(b-a)*t);}
+    function colAt(p){var x=p*(pal.length-1),i=Math.min(Math.floor(x),pal.length-2),f=x-i,a=pal[i],b=pal[i+1];
+      return "rgb("+lerp(a[0],b[0],f)+","+lerp(a[1],b[1],f)+","+lerp(a[2],b[2],f)+")";}
+    var ticking=false;
+    function upd(){ ticking=false;
+      var h=document.documentElement.scrollHeight-innerHeight;
+      var p=h>0?Math.min(Math.max(window.scrollY/h,0),1):0;
+      bg.style.background="linear-gradient(180deg,"+colAt(p)+","+colAt(Math.min(p+0.22,1))+")";
+    }
+    window.addEventListener("scroll",function(){if(!ticking){ticking=true;requestAnimationFrame(upd);}},{passive:true});
+    window.addEventListener("resize",upd); upd();
+  })();
+
   /* stat count-up on view */
   (function(){
     var stats=[].slice.call(document.querySelectorAll(".story__stats b"));
